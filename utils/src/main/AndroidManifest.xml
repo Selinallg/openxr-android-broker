@@ -1,0 +1,9 @@
+<!--suppress XmlUnusedNamespaceDeclaration -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.khronos.openxr.runtime_broker.utils">
+    <!--
+        Copyright 2020-2021, Collabora, Ltd.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+
+</manifest>

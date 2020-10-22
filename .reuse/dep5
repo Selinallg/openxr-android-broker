@@ -1,0 +1,39 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: OpenXR-Android-Runtime-Broker
+Upstream-Contact: Ryan Pavlik <ryan.pavlik@collabora.com>
+Source: https://gitlab.freedesktop.org/monado/utilities/draft-openxr-android-broker-impl
+
+Files: installable_runtime_broker/src/main/res/mipmap-hdpi/*
+ installable_runtime_broker/src/main/res/mipmap-mdpi/*
+ installable_runtime_broker/src/main/res/mipmap-xhdpi/*
+ installable_runtime_broker/src/main/res/mipmap-xxhdpi/*
+ installable_runtime_broker/src/main/res/mipmap-xxxhdpi/*
+ installable_runtime_broker/src/main/ic_launcher-playstore.png
+Copyright: 2020-2021, Collabora, Ltd.
+License: BSL-1.0
+Comment: PNG files generated from the XML drawable sources.
+
+Files: nativesampleclient/src/main/res/mipmap-hdpi/*
+ nativesampleclient/src/main/res/mipmap-mdpi/*
+ nativesampleclient/src/main/res/mipmap-xhdpi/*
+ nativesampleclient/src/main/res/mipmap-xxhdpi/*
+ nativesampleclient/src/main/res/mipmap-xxxhdpi/*
+ sampleclient/src/main/res/mipmap-hdpi/*
+ sampleclient/src/main/res/mipmap-mdpi/*
+ sampleclient/src/main/res/mipmap-xhdpi/*
+ sampleclient/src/main/res/mipmap-xxhdpi/*
+ sampleclient/src/main/res/mipmap-xxxhdpi/*
+ system_runtime_broker/src/main/res/mipmap-hdpi/*
+ system_runtime_broker/src/main/res/mipmap-mdpi/*
+ system_runtime_broker/src/main/res/mipmap-xhdpi/*
+ system_runtime_broker/src/main/res/mipmap-xxhdpi/*
+ system_runtime_broker/src/main/res/mipmap-xxxhdpi/*
+Copyright: 2020, Google
+License: Apache-2.0
+Comment: Material Icons clipart used. PNG files generated from the XML drawable sources.
+
+Files: vendor/jnipp/*
+Copyright: 2016-2020, Mitchell Dowd
+ 2020-2021, Collabora, Ltd.
+License: MIT
+Comment: SPDX-License-Identifier missing.

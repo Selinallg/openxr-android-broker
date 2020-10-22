@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Copyright 2020-2021, Collabora, Ltd.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+    <string name="permgroupdesc_openxr">provide immersive XR experiences</string>
+    <string name="permgrouplab_openxr">OpenXR</string>
+    <string name="permlab_openxr">provide an OpenXR experience</string>
+    <string name="permdesc_openxr">Allows the app to use XR hardware and sensors to provide an immersive experience. Malicious apps may record and share your motion or motion patterns with third parties.</string>
+</resources>

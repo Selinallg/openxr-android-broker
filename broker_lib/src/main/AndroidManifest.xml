@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.khronos.openxr.broker_lib">
+    <!--
+        Copyright 2020-2021, Collabora, Ltd.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+
+    <!-- For Android 11 compat: We need to be able to query package manager for this intent. -->
+    <queries>
+        <intent>
+            <action android:name="org.khronos.openxr.OpenXRRuntimeService" />
+        </intent>
+    </queries>
+
+    <!-- Define permissions to be used by OpenXR applications -->
+    <!-- TODO: do we add android:permissionGroupFlags="personalInfo" ? -->
+    <permission-group
+        android:name="org.khronos.openxr.permission-group.OPENXR"
+        android:description="@string/permgroupdesc_openxr"
+        android:label="@string/permgrouplab_openxr"
+        />
+
+    <permission
+        android:name="org.khronos.openxr.permission.OPENXR"
+        android:description="@string/permdesc_openxr"
+        android:label="@string/permlab_openxr"
+        android:permissionGroup="org.khronos.openxr.permission-group.OPENXR"
+        android:protectionLevel="normal" />
+
+</manifest>

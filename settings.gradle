@@ -1,0 +1,13 @@
+// Copyright 2020, Collabora, Ltd.
+// SPDX-License-Identifier: BSL-1.0
+
+rootProject.name = 'OpenXR Runtime Broker'
+
+include ':utils'
+include ':broker_lib'
+
+include ':installable_runtime_broker'
+include ':system_runtime_broker'
+
+include ':sampleclient'
+include ':nativesampleclient'
