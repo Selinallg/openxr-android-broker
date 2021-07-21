@@ -11,7 +11,6 @@ class SystemRuntimeChooser : RuntimeChooser {
     /**
      * Get the currently active runtime for a given specification major version.
      *
-     *
      * The first one of these is the preferred/"active" runtime
      *
      * @param context      a Context to use when searching for runtimes.
@@ -20,6 +19,7 @@ class SystemRuntimeChooser : RuntimeChooser {
      * @return the active runtime, or null if something went wrong or none were found.
      */
     override fun getActiveRuntime(context: Context, majorVersion: Int, abi: String): RuntimeData? {
+        // OEMs should implemented whatever is needed to access their runtime here.
         TODO("Not yet implemented")
     }
 }
