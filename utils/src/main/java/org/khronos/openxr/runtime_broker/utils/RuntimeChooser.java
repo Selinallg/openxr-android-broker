@@ -8,8 +8,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.List;
-
 public interface RuntimeChooser {
     /**
      * Get the currently active runtime for a given specification major version.

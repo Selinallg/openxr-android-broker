@@ -3,16 +3,23 @@
 
 package org.khronos.openxr.nativesampleclient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "NativeSampleClient";
+
+    static {
+        System.loadLibrary("nativelib");
+    }
+
+    @NonNull
+    native static String getRuntime(Context context);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +43,5 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i(TAG, "Message: " + msg);
         textView.setText(msg);
-    }
-
-    @NonNull
-    native static String getRuntime(Context context);
-
-    static {
-        System.loadLibrary("nativelib");
     }
 }
