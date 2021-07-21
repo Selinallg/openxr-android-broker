@@ -21,11 +21,11 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
     protected abstract val parser: BrokerUriParser
 
     /**
-     * ContentProvider interface.
+     * ContentProvider interface: get mime type.
      */
     override fun getType(uri: Uri): String? {
         val parsed: ParsedBrokerUri = parser.parse(uri)
-                ?: throw IllegalArgumentException("Could not parse URI $uri")
+            ?: throw IllegalArgumentException("Could not parse URI $uri")
         return when (parsed.tableType) {
             TableType.ActiveRuntime -> makeMime(parsed.isDir, "activeRuntime")
             TableType.Functions -> makeMime(parsed.isDir, BrokerContract.Functions.TABLE_PATH)
@@ -36,12 +36,14 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
     /**
      * ContentProvider interface where the actual work is done.
      */
-    override fun query(uri: Uri, projection: Array<String>?, selection: String?,
-                       selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
+    override fun query(
+        uri: Uri, projection: Array<String>?, selection: String?,
+        selectionArgs: Array<String>?, sortOrder: String?
+    ): Cursor? {
         require((selection == null && selectionArgs == null)) { "selection not supported" }
         require(sortOrder == null) { "sortOrder not supported" }
         val parsed: ParsedBrokerUri = parser.parse(uri)
-                ?: throw IllegalArgumentException("Could not parse URI $uri")
+            ?: throw IllegalArgumentException("Could not parse URI $uri")
         return when (parsed.tableType) {
             TableType.ActiveRuntime -> queryActiveRuntime(parsed, projection)
             TableType.Functions -> queryFunctions(parsed, projection)
@@ -78,9 +80,10 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
     private fun queryFunctions(parsed: ParsedBrokerUri, projection: Array<String>?): Cursor? {
         val appContext = context?.applicationContext ?: return null
         val runtime = runtimeChooser.getActiveRuntime(
-                appContext,
-                parsed.majorVer,
-                parsed.abi) ?: return null
+            appContext,
+            parsed.majorVer,
+            parsed.abi
+        ) ?: return null
         if (runtime.packageName != parsed.packageName) {
             return null
         }
@@ -97,8 +100,10 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
     /**
      * ContentProvider interface: implemented as a no-op.
      */
-    override fun update(uri: Uri, values: ContentValues?, selection: String?,
-                        selectionArgs: Array<String>?): Int {
+    override fun update(
+        uri: Uri, values: ContentValues?, selection: String?,
+        selectionArgs: Array<String>?
+    ): Int {
         return 0
     }
 
@@ -130,10 +135,11 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
          * Helper used by getType.
          */
         private fun makeMime(isDir: Boolean, table: String): String {
-            return String.format("vnd.android.cursor.%s/vnd.%s.%s",
-                    if (isDir) "dir" else "item",
-                    BrokerContract.AUTHORITY,
-                    table
+            return String.format(
+                "vnd.android.cursor.%s/vnd.%s.%s",
+                if (isDir) "dir" else "item",
+                BrokerContract.AUTHORITY,
+                table
             )
         }
     }

@@ -4,7 +4,7 @@ package org.khronos.openxr.broker_lib
 
 import android.database.MatrixCursor
 import org.khronos.openxr.broker_lib.RuntimeFunctionsCursorBuilder.ColumnFiller
-import org.khronos.openxr.runtime_broker.utils.BrokerContract
+import org.khronos.openxr.runtime_broker.utils.BrokerContract.Functions.Columns
 import org.khronos.openxr.runtime_broker.utils.RuntimeData
 import java.security.InvalidParameterException
 import java.util.*
@@ -15,9 +15,12 @@ internal class RuntimeFunctionsCursorBuilder(runtime: RuntimeData?, projection: 
         private val columnFillerHashMap = HashMap<String, ColumnFiller?>()
 
         init {
-            columnFillerHashMap[BrokerContract.Functions.Columns._ID] = ColumnFiller { item: Int, _: Entry -> item }
-            columnFillerHashMap[BrokerContract.Functions.Columns.FUNCTION_NAME] = ColumnFiller { _: Int, data: Entry -> data.functionName }
-            columnFillerHashMap[BrokerContract.Functions.Columns.SYMBOL_NAME] = ColumnFiller { _: Int, data: Entry -> data.symbolName }
+            columnFillerHashMap[Columns._ID] =
+                ColumnFiller { item: Int, _: Entry -> item }
+            columnFillerHashMap[Columns.FUNCTION_NAME] =
+                ColumnFiller { _: Int, data: Entry -> data.functionName }
+            columnFillerHashMap[Columns.SYMBOL_NAME] =
+                ColumnFiller { _: Int, data: Entry -> data.symbolName }
         }
     }
 
@@ -52,16 +55,16 @@ internal class RuntimeFunctionsCursorBuilder(runtime: RuntimeData?, projection: 
     init {
         if (runtime != null) {
             functions = runtime.functions
-                    .entries
-                    .stream()
-                    .sorted()
-                    .filter { entry: Map.Entry<String?, String?> -> entry.key != null && entry.value != null }
-                    .map { entry: Map.Entry<String, String> -> Entry(entry.key, entry.value) }
-                    .collect(Collectors.toList())
+                .entries
+                .stream()
+                .sorted()
+                .filter { entry: Map.Entry<String?, String?> -> entry.key != null && entry.value != null }
+                .map { entry: Map.Entry<String, String> -> Entry(entry.key, entry.value) }
+                .collect(Collectors.toList())
         }
         for (column in projection) {
             val filler = columnFillerHashMap.getOrDefault(column, null)
-                    ?: throw InvalidParameterException("Invalid column name passed: $column")
+                ?: throw InvalidParameterException("Invalid column name passed: $column")
             columnFillers.add(filler)
         }
         cursor = MatrixCursor(projection)

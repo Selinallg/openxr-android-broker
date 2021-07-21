@@ -41,21 +41,29 @@ object OpenXRLoaderUtils {
     fun findOpenXRRuntimes(context: Context, @NonNull abi: String): MutableList<RuntimeData>? {
         val packageManager = context.packageManager
         val intent = Intent(serviceName)
-        val resolutions = packageManager.queryIntentServices(intent,
-                PackageManager.GET_META_DATA + PackageManager.GET_SHARED_LIBRARY_FILES)
+        val resolutions = packageManager.queryIntentServices(
+            intent,
+            PackageManager.GET_META_DATA + PackageManager.GET_SHARED_LIBRARY_FILES
+        )
         if (resolutions.size == 0) {
             Log.w(TAG, "got no services for our intent.")
             return null
         }
         val runtimes = ArrayList<RuntimeData>()
         for (resolveInfo in resolutions) {
-            Log.i(TAG, "Considering intent service resolution: " +
-                    resolveInfo.serviceInfo.applicationInfo.packageName)
+            Log.i(
+                TAG, "Considering intent service resolution: " +
+                        resolveInfo.serviceInfo.applicationInfo.packageName
+            )
             val runtimeData = RuntimeData.fromIntentResolveInfo(resolveInfo, abi)
             runtimeData ?: continue
-            Log.i(TAG, String.format("Runtime SO for %s is '%s', OpenXR major version %d",
+            Log.i(
+                TAG, String.format(
+                    "Runtime SO for %s is '%s', OpenXR major version %d",
                     resolveInfo.serviceInfo.applicationInfo.packageName,
-                    runtimeData.soFilename, runtimeData.majorVersion))
+                    runtimeData.soFilename, runtimeData.majorVersion
+                )
+            )
             runtimes.add(runtimeData)
         }
         if (runtimes.isEmpty()) {
@@ -74,7 +82,11 @@ object OpenXRLoaderUtils {
      * OpenXR runtimes of the given version.
      */
     @Keep
-    fun findOpenXRRuntimes(context: Context, majorVersion: Int, @NonNull abi: String): List<RuntimeData>? {
+    fun findOpenXRRuntimes(
+        context: Context,
+        majorVersion: Int,
+        @NonNull abi: String
+    ): List<RuntimeData>? {
         val runtimes = findOpenXRRuntimes(context, abi) ?: return null
         runtimes.removeIf { data: RuntimeData -> data.majorVersion != majorVersion.toLong() }
         if (runtimes.isEmpty()) {

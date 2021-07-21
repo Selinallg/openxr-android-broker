@@ -17,7 +17,11 @@ class RuntimeEnumeratorImpl : RuntimeEnumerator {
      * @param majorVersion a major version number of OpenXR.
      * @return a list of runtimes, or null if something went wrong or none were found.
      */
-    private fun getAvailableRuntimesFromMetadata(context: Context, majorVersion: Int, abi: String): List<RuntimeData>? {
+    private fun getAvailableRuntimesFromMetadata(
+        context: Context,
+        majorVersion: Int,
+        abi: String
+    ): List<RuntimeData>? {
         val runtimes = OpenXRLoaderUtils.findOpenXRRuntimes(context, majorVersion, abi)
         return if (runtimes != null && runtimes.isNotEmpty()) {
             runtimes
@@ -33,14 +37,23 @@ class RuntimeEnumeratorImpl : RuntimeEnumerator {
      * @param abi          the ABI to return data for.
      * @return a list of runtimes, or null if something went wrong or none were found.
      */
-    override fun getAvailableRuntimes(context: Context, majorVersion: Int, abi: String): List<RuntimeData> {
+    override fun getAvailableRuntimes(
+        context: Context,
+        majorVersion: Int,
+        abi: String
+    ): List<RuntimeData> {
         var runtimes = mutableListOf<RuntimeData>()
         getAvailableRuntimesFromMetadata(context, majorVersion, abi)?.let {
             runtimes.addAll(it)
         }
         // We recursively ask the system runtime broker if it has a runtime, so the loader only has
         // to talk to one broker, and the installable broker "owns" the user preference.
-        getRuntimeFromContentProvider(BrokerContract.BrokerType.SystemRuntimeBroker, context, majorVersion, abi)?.let { runtimes.add(it) }
+        getRuntimeFromContentProvider(
+            BrokerContract.BrokerType.SystemRuntimeBroker,
+            context,
+            majorVersion,
+            abi
+        )?.let { runtimes.add(it) }
         return runtimes
     }
 

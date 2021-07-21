@@ -23,11 +23,17 @@ sealed class BrokerUriParser(private val brokerType: BrokerContract.BrokerType) 
      */
     fun parse(uri: Uri): ParsedBrokerUri? {
         if (BrokerContract.CONTENT_SCHEME != uri.scheme) {
-            Log.w(TAG, "URI scheme was not the expected '${BrokerContract.CONTENT_SCHEME}': ${uri.scheme}")
+            Log.w(
+                TAG,
+                "URI scheme was not the expected '${BrokerContract.CONTENT_SCHEME}': ${uri.scheme}"
+            )
             return null
         }
         if (uri.authority != authority) {
-            Log.w(TAG, "URI authority was not the expected value ${authority}, but instead: ${uri.authority}")
+            Log.w(
+                TAG,
+                "URI authority was not the expected value ${authority}, but instead: ${uri.authority}"
+            )
             return null
         }
         val segments = uri.pathSegments
@@ -84,24 +90,33 @@ sealed class BrokerUriParser(private val brokerType: BrokerContract.BrokerType) 
     private val authority = BrokerContract.brokerToAuthority(brokerType)
 
     init {
-        val runtimeBasePath = "/${BrokerContract.BASE_PATH}/#/${BrokerContract.ABI_PATH}/*/${BrokerContract.RUNTIMES_PATH}"
+        val runtimeBasePath =
+            "/${BrokerContract.BASE_PATH}/#/${BrokerContract.ABI_PATH}/*/${BrokerContract.RUNTIMES_PATH}"
         val activeRuntimeDirPath = "${runtimeBasePath}/${BrokerContract.ActiveRuntime.TABLE_PATH}"
         Log.i(TAG, "activeRuntimeDirPath: $activeRuntimeDirPath")
-        uriMatcher.addURI(authority,
-                activeRuntimeDirPath,
-                ActiveRuntimeDirCode)
-        uriMatcher.addURI(authority,
-                "${activeRuntimeDirPath}/#",
-                ActiveRuntimeItemCode)
+        uriMatcher.addURI(
+            authority,
+            activeRuntimeDirPath,
+            ActiveRuntimeDirCode
+        )
+        uriMatcher.addURI(
+            authority,
+            "${activeRuntimeDirPath}/#",
+            ActiveRuntimeItemCode
+        )
 
         val runtimeFunctionsDirPath = "${runtimeBasePath}/*/${BrokerContract.Functions.TABLE_PATH}"
         Log.i(TAG, "runtimeFunctionsDirPath: $runtimeFunctionsDirPath")
-        uriMatcher.addURI(authority,
-                runtimeFunctionsDirPath,
-                FunctionsDirCode)
-        uriMatcher.addURI(authority,
-                "${runtimeFunctionsDirPath}/#",
-                FunctionsItemCode)
+        uriMatcher.addURI(
+            authority,
+            runtimeFunctionsDirPath,
+            FunctionsDirCode
+        )
+        uriMatcher.addURI(
+            authority,
+            "${runtimeFunctionsDirPath}/#",
+            FunctionsItemCode
+        )
     }
 }
 

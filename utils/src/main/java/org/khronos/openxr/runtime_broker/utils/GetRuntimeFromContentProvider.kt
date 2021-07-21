@@ -6,18 +6,28 @@ package org.khronos.openxr.runtime_broker.utils
 import android.content.Context
 import android.database.Cursor
 import android.util.Log
+import org.khronos.openxr.runtime_broker.utils.BrokerContract.ActiveRuntime.Columns
 
 
-private fun getRuntimeFunctions(type: BrokerContract.BrokerType, context: Context, majorVersion: Int, abi: String, pkg: String): Map<String, String> {
+private fun getRuntimeFunctions(
+    type: BrokerContract.BrokerType,
+    context: Context,
+    majorVersion: Int,
+    abi: String,
+    pkg: String
+): Map<String, String> {
     val uri = BrokerContract.Functions.makeContentUri(type, majorVersion, abi, pkg)
     val projection = arrayOf(
-            BrokerContract.Functions.Columns.FUNCTION_NAME,
-            BrokerContract.Functions.Columns.SYMBOL_NAME)
-    val cursor: Cursor = context.contentResolver.query(uri,
-            projection,
-            null,
-            null,
-            null) ?: return mapOf()
+        BrokerContract.Functions.Columns.FUNCTION_NAME,
+        BrokerContract.Functions.Columns.SYMBOL_NAME
+    )
+    val cursor: Cursor = context.contentResolver.query(
+        uri,
+        projection,
+        null,
+        null,
+        null
+    ) ?: return mapOf()
 
     val funcColumn = cursor.getColumnIndex(BrokerContract.Functions.Columns.FUNCTION_NAME)
     val symbolColumn = cursor.getColumnIndex(BrokerContract.Functions.Columns.SYMBOL_NAME)
@@ -30,28 +40,36 @@ private fun getRuntimeFunctions(type: BrokerContract.BrokerType, context: Contex
     return map
 }
 
-fun getRuntimeFromContentProvider(type: BrokerContract.BrokerType, context: Context, majorVersion: Int, abi: String): RuntimeData? {
+fun getRuntimeFromContentProvider(
+    type: BrokerContract.BrokerType,
+    context: Context,
+    majorVersion: Int,
+    abi: String
+): RuntimeData? {
     val projection = arrayOf(
-            BrokerContract.ActiveRuntime.Columns.PACKAGE_NAME,
-            BrokerContract.ActiveRuntime.Columns.NATIVE_LIB_DIR,
-            BrokerContract.ActiveRuntime.Columns.SO_FILENAME,
-            BrokerContract.ActiveRuntime.Columns.HAS_FUNCTIONS)
+        Columns.PACKAGE_NAME,
+        Columns.NATIVE_LIB_DIR,
+        Columns.SO_FILENAME,
+        Columns.HAS_FUNCTIONS
+    )
 
     val uri = BrokerContract.ActiveRuntime.makeContentUri(type, majorVersion, abi)
     Log.d("getRuntimeFromContentProvider", "URI: $uri")
-    val cursor: Cursor = context.contentResolver.query(uri,
-            projection,
-            null,
-            null,
-            null) ?: return null
+    val cursor: Cursor = context.contentResolver.query(
+        uri,
+        projection,
+        null,
+        null,
+        null
+    ) ?: return null
 
     if (!cursor.moveToNext()) {
         return null
     }
-    val packageName = cursor.getString(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.PACKAGE_NAME))
-    val nativeLibDir = cursor.getString(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.NATIVE_LIB_DIR))
-    val soFilename = cursor.getString(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.SO_FILENAME))
-    val hasFunctions = cursor.getInt(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.HAS_FUNCTIONS))
+    val packageName = cursor.getString(cursor.getColumnIndex(Columns.PACKAGE_NAME))
+    val nativeLibDir = cursor.getString(cursor.getColumnIndex(Columns.NATIVE_LIB_DIR))
+    val soFilename = cursor.getString(cursor.getColumnIndex(Columns.SO_FILENAME))
+    val hasFunctions = cursor.getInt(cursor.getColumnIndex(Columns.HAS_FUNCTIONS))
     val functions = if (hasFunctions != 0) {
         getRuntimeFunctions(type, context, majorVersion, abi, packageName)
     } else {
