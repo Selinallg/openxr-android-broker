@@ -1,5 +1,9 @@
-// Copyright 2020-2021, Collabora, Ltd.
-// SPDX-License-Identifier: BSL-1.0
+// Copyright (c) 2020-2021, The Khronos Group Inc.
+// Copyright (c) 2020-2021, Collabora, Ltd.
+//
+// SPDX-License-Identifier:  Apache-2.0 OR MIT
+//
+// Initial Author: Ryan Pavlik <ryan.pavlik@collabora.com>
 
 #include <jnipp.h>
 #include <jni.h>
@@ -18,20 +22,22 @@ using wrap::android::database::Cursor;
 using wrap::android::net::Uri;
 using wrap::android::net::Uri_Builder;
 
+// This code matches the code used in the OpenXR loader
 // Code in here corresponds roughly to the Java "BrokerContract" class and subclasses.
 namespace
 {
-    static constexpr auto AUTHORITY = "org.khronos.openxr.runtime_broker";
-    static constexpr auto BASE_PATH = "openxr";
-    static constexpr auto ABI_PATH = "abi";
-    static constexpr auto RUNTIMES_PATH = "runtimes";
+    constexpr auto AUTHORITY = "org.khronos.openxr.runtime_broker";
+    constexpr auto SYSTEM_AUTHORITY = "org.khronos.openxr.system_runtime_broker";
+    constexpr auto BASE_PATH = "openxr";
+    constexpr auto ABI_PATH = "abi";
+    constexpr auto RUNTIMES_PATH = "runtimes";
 
     struct BaseColumns
     {
         /**
          * The unique ID for a row.
          */
-        static constexpr auto ID = "_id";
+        [[maybe_unused]] static constexpr auto ID = "_id";
     };
 
     /**
@@ -54,14 +60,16 @@ namespace
          * Create a content URI for querying the data on the active runtime for a
          * given major version of OpenXR.
          *
+         * @param systemBroker If the system runtime broker (instead of the installable one) should be queried.
          * @param majorVer The major version of OpenXR.
+         * @param abi The Android ABI name in use.
          * @return A content URI for a single item: the active runtime.
          */
-        static Uri makeContentUri(int majorVersion, const char *abi)
+        static Uri makeContentUri(bool systemBroker, int majorVersion, const char *abi)
         {
             auto builder = Uri_Builder::construct();
             builder.scheme("content")
-                .authority(AUTHORITY)
+                .authority(systemBroker ? SYSTEM_AUTHORITY : AUTHORITY)
                 .appendPath(BASE_PATH)
                 .appendPath(std::to_string(majorVersion))
                 .appendPath(ABI_PATH)
@@ -113,22 +121,23 @@ namespace
         /**
          * Final path component to this URI.
          */
-        static constexpr auto
-            TABLE_PATH = "functions";
+        static constexpr auto TABLE_PATH = "functions";
 
         /**
          * Create a content URI for querying all rows of the function remapping data for a given
          * runtime package and major version of OpenXR.
          *
+         * @param systemBroker If the system runtime broker (instead of the installable one) should be queried.
          * @param majorVer    The major version of OpenXR.
          * @param packageName The package name of the runtime.
+         * @param abi The Android ABI name in use.
          * @return A content URI for the entire table: the function remapping for that runtime.
          */
-        static Uri makeContentUri(int majorVersion, std::string const &packageName, const char *abi)
+        static Uri makeContentUri(bool systemBroker, int majorVersion, std::string const &packageName, const char *abi)
         {
             auto builder = Uri_Builder::construct();
             builder.scheme("content")
-                .authority(AUTHORITY)
+                .authority(systemBroker ? SYSTEM_AUTHORITY : AUTHORITY)
                 .appendPath(BASE_PATH)
                 .appendPath(std::to_string(majorVersion))
                 .appendPath(ABI_PATH)
@@ -141,18 +150,15 @@ namespace
 
         struct Columns : BaseColumns
         {
-
             /**
              * Constant for the FUNCTION_NAME column name
              */
-            static constexpr auto
-                FUNCTION_NAME = "function_name";
+            static constexpr auto FUNCTION_NAME = "function_name";
 
             /**
              * Constant for the SYMBOL_NAME column name
              */
-            static constexpr auto
-                SYMBOL_NAME = "symbol_name";
+            static constexpr auto SYMBOL_NAME = "symbol_name";
         };
     } // namespace functions
 
@@ -198,7 +204,7 @@ Java_org_khronos_openxr_nativesampleclient_MainActivity_getRuntime(JNIEnv *env, 
              active_runtime::Columns::SO_FILENAME,
              active_runtime::Columns::HAS_FUNCTIONS});
 
-        auto uri = active_runtime::makeContentUri(1, ABI);
+        auto uri = active_runtime::makeContentUri(false, 1, ABI);
         Cursor cursor = Context{context}.getContentResolver().query(
             uri, projection);
         if (cursor.isNull())
