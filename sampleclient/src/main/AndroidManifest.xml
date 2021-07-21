@@ -7,7 +7,12 @@
         SPDX-License-Identifier: BSL-1.0
     -->
 
+  <!-- If building externally with the OpenXR AAR, this would be merged in automatically. -->
     <uses-permission android:name="org.khronos.openxr.permission.OPENXR" />
+    <uses-permission android:name="org.khronos.openxr.permission.OPENXR_SYSTEM" />
+    <queries>
+        <provider android:authorities="org.khronos.openxr.runtime_broker;org.khronos.openxr.system_runtime_broker" />
+    </queries>
 
     <application
         android:allowBackup="true"
