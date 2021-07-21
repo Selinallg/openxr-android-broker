@@ -16,6 +16,13 @@
         <provider android:authorities="org.khronos.openxr.system_runtime_broker" />
     </queries>
 
+    <!-- Define permissions to be used by OpenXR applications -->
+    <!-- TODO: do we add android:permissionGroupFlags="personalInfo" ? -->
+    <permission-group
+        android:name="org.khronos.openxr.permission-group.OPENXR"
+        android:description="@string/permgroupdesc_openxr"
+        android:label="@string/permgrouplab_openxr" />
+
     <permission
         android:name="org.khronos.openxr.permission.OPENXR"
         android:description="@string/permdesc_openxr"
