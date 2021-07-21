@@ -18,8 +18,7 @@
     <permission-group
         android:name="org.khronos.openxr.permission-group.OPENXR"
         android:description="@string/permgroupdesc_openxr"
-        android:label="@string/permgrouplab_openxr"
-        />
+        android:label="@string/permgrouplab_openxr" />
 
 
 </manifest>
