@@ -21,11 +21,5 @@
         android:label="@string/permgrouplab_openxr"
         />
 
-    <permission
-        android:name="org.khronos.openxr.permission.OPENXR"
-        android:description="@string/permdesc_openxr"
-        android:label="@string/permlab_openxr"
-        android:permissionGroup="org.khronos.openxr.permission-group.OPENXR"
-        android:protectionLevel="normal" />
 
 </manifest>

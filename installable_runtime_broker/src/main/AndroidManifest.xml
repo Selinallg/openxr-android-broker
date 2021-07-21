@@ -16,6 +16,12 @@
         <provider android:authorities="org.khronos.openxr.system_runtime_broker" />
     </queries>
 
+    <permission
+        android:name="org.khronos.openxr.permission.OPENXR"
+        android:description="@string/permdesc_openxr"
+        android:label="@string/permlab_openxr"
+        android:permissionGroup="org.khronos.openxr.permission-group.OPENXR"
+        android:protectionLevel="normal" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
