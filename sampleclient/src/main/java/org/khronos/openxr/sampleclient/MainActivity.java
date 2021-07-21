@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
             msg = lookUpRuntime();
         } catch (Exception e) {
             msg = "Caught exception: " + e;
+            textView.setText(msg);
             Log.w(TAG, "Exception!", e);
             return;
         }
