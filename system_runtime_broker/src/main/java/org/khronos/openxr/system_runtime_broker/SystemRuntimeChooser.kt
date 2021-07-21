@@ -21,6 +21,6 @@ class SystemRuntimeChooser : RuntimeChooser {
     override fun getActiveRuntime(context: Context, majorVersion: Int, abi: String): RuntimeData? {
         // OEMs should implement whatever is needed to access their runtime here,
         // and return a populated RuntimeData object.
-        TODO("Not yet implemented")
+        return null
     }
 }
