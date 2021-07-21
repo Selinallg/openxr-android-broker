@@ -22,17 +22,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        TextView textView = findViewById(R.id.textBox);
+        TextView systemTextView = findViewById(R.id.systemTextBox);
+        populateTextBox(systemTextView, BrokerContract.BrokerType.SystemRuntimeBroker, "System Broker: ");
+        TextView installableTextView = findViewById(R.id.installableTextBox);
+        populateTextBox(installableTextView, BrokerContract.BrokerType.RuntimeBroker, "Installable Broker: ");
+    }
+
+    private void populateTextBox(TextView textView, BrokerContract.BrokerType brokerType, String prefix) {
         String msg;
         try {
-            msg = lookUpRuntime();
+            msg = prefix + lookUpRuntime(brokerType);
         } catch (Exception e) {
-            msg = "Caught exception: " + e;
+            msg = prefix + "Caught exception: " + e;
             textView.setText(msg);
             Log.w(TAG, "Exception!", e);
             return;
         }
-        Log.i(TAG, "Message: " + msg);
+        Log.i(TAG, prefix + "Message: " + msg);
         textView.setText(msg);
     }
 
@@ -40,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
      * This is essentially what the loader would do to find a runtime.
      */
     @NonNull
-    private String lookUpRuntime() {
+    private String lookUpRuntime(BrokerContract.BrokerType brokerType) {
         final String[] projection = new String[]{
                 BrokerContract.ActiveRuntime.Columns._ID,
                 BrokerContract.ActiveRuntime.Columns.PACKAGE_NAME,
@@ -49,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         };
         Uri uri =
                 BrokerContract.ActiveRuntime.makeContentUri(
-                        BrokerContract.BrokerType.RuntimeBroker,
+                        brokerType,
                         1, null);
         Log.d(TAG, String.format("URI: %s", uri));
         Cursor cursor = getContentResolver().query(uri,
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             return "Null cursor!";
         }
         if (cursor.getCount() < 1) {
+            cursor.close();
             return "Present but empty cursor!";
         }
         cursor.moveToFirst();
