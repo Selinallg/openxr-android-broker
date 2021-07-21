@@ -8,8 +8,8 @@ import android.database.Cursor
 import android.util.Log
 
 
-private fun getRuntimeFunctions(context: Context, majorVersion: Int, abi: String, pkg: String, type: BrokerContract.BrokerType): Map<String, String> {
-    val uri = BrokerContract.Functions.makeContentUri(majorVersion, abi, pkg, type)
+private fun getRuntimeFunctions(type: BrokerContract.BrokerType, context: Context, majorVersion: Int, abi: String, pkg: String): Map<String, String> {
+    val uri = BrokerContract.Functions.makeContentUri(type, majorVersion, abi, pkg)
     val projection = arrayOf(
             BrokerContract.Functions.Columns.FUNCTION_NAME,
             BrokerContract.Functions.Columns.SYMBOL_NAME)
@@ -30,14 +30,14 @@ private fun getRuntimeFunctions(context: Context, majorVersion: Int, abi: String
     return map
 }
 
-fun getRuntimeFromContentProvider(context: Context, majorVersion: Int, abi: String, type: BrokerContract.BrokerType): RuntimeData? {
+fun getRuntimeFromContentProvider(type: BrokerContract.BrokerType, context: Context, majorVersion: Int, abi: String): RuntimeData? {
     val projection = arrayOf(
             BrokerContract.ActiveRuntime.Columns.PACKAGE_NAME,
             BrokerContract.ActiveRuntime.Columns.NATIVE_LIB_DIR,
             BrokerContract.ActiveRuntime.Columns.SO_FILENAME,
             BrokerContract.ActiveRuntime.Columns.HAS_FUNCTIONS)
 
-    val uri = BrokerContract.ActiveRuntime.makeContentUri(majorVersion, abi, type)
+    val uri = BrokerContract.ActiveRuntime.makeContentUri(type, majorVersion, abi)
     Log.d("getRuntimeFromContentProvider", "URI: $uri")
     val cursor: Cursor = context.contentResolver.query(uri,
             projection,
@@ -53,7 +53,7 @@ fun getRuntimeFromContentProvider(context: Context, majorVersion: Int, abi: Stri
     val soFilename = cursor.getString(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.SO_FILENAME))
     val hasFunctions = cursor.getInt(cursor.getColumnIndex(BrokerContract.ActiveRuntime.Columns.HAS_FUNCTIONS))
     val functions = if (hasFunctions != 0) {
-        getRuntimeFunctions(context, majorVersion, abi, packageName, type)
+        getRuntimeFunctions(type, context, majorVersion, abi, packageName)
     } else {
         mapOf()
     }

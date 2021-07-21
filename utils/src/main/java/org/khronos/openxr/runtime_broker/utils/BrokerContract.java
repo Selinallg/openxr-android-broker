@@ -65,13 +65,13 @@ public final class BrokerContract {
          * Create a content URI for querying the data on the active runtime for a
          * given major version of OpenXR.
          *
+         * @param brokerType The broker type (regular/installable or system) to retrieve paths for
          * @param majorVer   The major version of OpenXR.
          * @param abi        The Android ABI to retrieve paths for
-         * @param brokerType The broker type (regular/installable or system) to retrieve paths for
          * @return A content URI for a single item: the active runtime.
          */
         @NonNull
-        public static Uri makeContentUri(int majorVer, @Nullable String abi, BrokerType brokerType) {
+        public static Uri makeContentUri(BrokerType brokerType, int majorVer, @Nullable String abi) {
             if (abi == null) {
                 abi = Build.SUPPORTED_ABIS[0];
             }
@@ -140,14 +140,14 @@ public final class BrokerContract {
          * Create a content URI for querying all rows of the function remapping data for a given
          * runtime package and major version of OpenXR.
          *
+         * @param brokerType  The broker type (regular/installable or system) to retrieve paths for
          * @param majorVer    The major version of OpenXR.
          * @param packageName The package name of the runtime.
          * @param abi         The ABI to query.
-         * @param brokerType  The broker type (regular/installable or system) to retrieve paths for
          * @return A content URI for the entire table: the function remapping for that runtime.
          */
         @NonNull
-        public static Uri makeContentUri(int majorVer, String packageName, @Nullable String abi, BrokerType brokerType) {
+        public static Uri makeContentUri(BrokerType brokerType, int majorVer, String packageName, @Nullable String abi) {
             if (abi == null) {
                 abi = Build.SUPPORTED_ABIS[0];
             }

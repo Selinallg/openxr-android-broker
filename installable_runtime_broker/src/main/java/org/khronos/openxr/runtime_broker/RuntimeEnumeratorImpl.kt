@@ -40,7 +40,7 @@ class RuntimeEnumeratorImpl : RuntimeEnumerator {
         }
         // We recursively ask the system runtime broker if it has a runtime, so the loader only has
         // to talk to one broker, and the installable broker "owns" the user preference.
-        getRuntimeFromContentProvider(context, majorVersion, abi, BrokerContract.BrokerType.SystemRuntimeBroker)?.let { runtimes.add(it) }
+        getRuntimeFromContentProvider(BrokerContract.BrokerType.SystemRuntimeBroker, context, majorVersion, abi)?.let { runtimes.add(it) }
         return runtimes
     }
 

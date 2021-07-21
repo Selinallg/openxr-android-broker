@@ -26,7 +26,8 @@ public class ParsedBrokerUriTest {
         {
             BrokerUriParser parser = new RuntimeBrokerUriParser();
             Uri activeRuntimeItemUri = BrokerContract.ActiveRuntime.makeContentUri(
-                    majorVer, null, BrokerContract.BrokerType.RuntimeBroker);
+                    BrokerContract.BrokerType.RuntimeBroker,
+                    majorVer, null);
             Truth.assertThat(parser.parse(activeRuntimeItemUri))
                     .isNotNull();
             ParsedBrokerUri activeRuntimeItem = parser.parse(activeRuntimeItemUri);
@@ -45,7 +46,8 @@ public class ParsedBrokerUriTest {
         {
             BrokerUriParser parser = new RuntimeBrokerUriParser();
             Uri functionsDirUri = BrokerContract.Functions.makeContentUri(
-                    majorVer, packageName, null, BrokerContract.BrokerType.RuntimeBroker);
+                    BrokerContract.BrokerType.RuntimeBroker,
+                    majorVer, packageName, null);
             Truth.assertThat(parser.parse(functionsDirUri))
                     .isNotNull();
             ParsedBrokerUri functionsDir = parser.parse(functionsDirUri);

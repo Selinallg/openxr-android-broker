@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
                 BrokerContract.ActiveRuntime.Columns.HAS_FUNCTIONS,
         };
         Uri uri =
-                BrokerContract.ActiveRuntime.makeContentUri(1, null, BrokerContract.BrokerType.RuntimeBroker);
+                BrokerContract.ActiveRuntime.makeContentUri(
+                        BrokerContract.BrokerType.RuntimeBroker,
+                        1, null);
         Log.d(TAG, String.format("URI: %s", uri));
         Cursor cursor = getContentResolver().query(uri,
                 projection,
