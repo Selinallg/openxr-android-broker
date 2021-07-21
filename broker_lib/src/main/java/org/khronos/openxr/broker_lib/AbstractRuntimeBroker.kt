@@ -9,6 +9,7 @@ import android.net.Uri
 import android.util.Log
 import org.khronos.openxr.runtime_broker.utils.BrokerContract
 import org.khronos.openxr.runtime_broker.utils.RuntimeChooser
+import org.khronos.openxr.runtime_broker.utils.RuntimeData
 
 /**
  * Abstract implementation of an OpenXR "Runtime Broker" content provider.
@@ -51,9 +52,15 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
      * Provides the internals of query() for the activeRuntime URI.
      */
     private fun queryActiveRuntime(parsed: ParsedBrokerUri, projection: Array<String>?): Cursor? {
-        val runtime = runtimeChooser.getActiveRuntime(
+        val runtime: RuntimeData? = try {
+            runtimeChooser.getActiveRuntime(
                 context!!.applicationContext,
-                parsed.majorVer, parsed.abi)
+                parsed.majorVer, parsed.abi
+            )
+        } catch (e: Exception) {
+            Log.w(TAG, "Caught exception in runtimeChooser: ${e.message}")
+            null
+        }
         val runtimeCursorBuilder = ActiveRuntimeCursorBuilder(null, projection!!)
         // This table only has one row, so asking for row 0 or asking for a dir (all rows)
         // are equivalent.
