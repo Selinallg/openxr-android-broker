@@ -54,22 +54,26 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
      * Provides the internals of query() for the activeRuntime URI.
      */
     private fun queryActiveRuntime(parsed: ParsedBrokerUri, projection: Array<String>?): Cursor? {
-        val runtime: RuntimeData? = try {
-            runtimeChooser.getActiveRuntime(
-                context!!.applicationContext,
-                parsed.majorVer, parsed.abi
-            )
+        val runtimeCursorBuilder = ActiveRuntimeCursorBuilder(null, projection!!)
+        try {
+            val runtime: RuntimeData? =
+                runtimeChooser.getActiveRuntime(
+                    context!!.applicationContext,
+                    parsed.majorVer, parsed.abi
+                )
+            // This table only has one row, so asking for row 0 or asking for a dir (all rows)
+            // are equivalent.
+            val row = parsed.row ?: 0
+            if (runtime != null && row == 0) {
+                Log.i(TAG, "Returning runtime: ${runtime.nativeLibraryDir}  ${runtime.soFilename}")
+                runtimeCursorBuilder.addRow(0, runtime)
+            }
         } catch (e: Exception) {
             Log.w(TAG, "Caught exception in runtimeChooser: ${e.message}")
-            null
-        }
-        val runtimeCursorBuilder = ActiveRuntimeCursorBuilder(null, projection!!)
-        // This table only has one row, so asking for row 0 or asking for a dir (all rows)
-        // are equivalent.
-        val row = parsed.row ?: 0
-        if (runtime != null && row == 0) {
-            Log.i(TAG, "Returning runtime: ${runtime.nativeLibraryDir}  ${runtime.soFilename}")
-            runtimeCursorBuilder.addRow(0, runtime)
+            return null
+        } catch (e: NotImplementedError) {
+            Log.w(TAG, "Caught NotImplementedError in runtimeChooser: ${e.message}")
+            return null
         }
         return runtimeCursorBuilder.cursor
     }
@@ -78,23 +82,31 @@ abstract class AbstractRuntimeBroker : ContentProvider() {
      * Provides the internals of query() for the functions URIs.
      */
     private fun queryFunctions(parsed: ParsedBrokerUri, projection: Array<String>?): Cursor? {
-        val appContext = context?.applicationContext ?: return null
-        val runtime = runtimeChooser.getActiveRuntime(
-            appContext,
-            parsed.majorVer,
-            parsed.abi
-        ) ?: return null
-        if (runtime.packageName != parsed.packageName) {
+        try {
+            val appContext = context?.applicationContext ?: return null
+            val runtime = runtimeChooser.getActiveRuntime(
+                appContext,
+                parsed.majorVer,
+                parsed.abi
+            ) ?: return null
+            if (runtime.packageName != parsed.packageName) {
+                return null
+            }
+            val cursorBuilder = RuntimeFunctionsCursorBuilder(runtime, projection!!)
+            val rowNum = parsed.row
+            if (rowNum != null) {
+                cursorBuilder.addRow(rowNum)
+            } else {
+                cursorBuilder.addAllRows()
+            }
+            return cursorBuilder.cursor
+        } catch (e: Exception) {
+            Log.w(TAG, "Caught exception in runtimeChooser: ${e.message}")
+            return null
+        } catch (e: NotImplementedError) {
+            Log.w(TAG, "Caught NotImplementedError in runtimeChooser: ${e.message}")
             return null
         }
-        val cursorBuilder = RuntimeFunctionsCursorBuilder(runtime, projection!!)
-        val rowNum = parsed.row
-        if (rowNum != null) {
-            cursorBuilder.addRow(rowNum)
-        } else {
-            cursorBuilder.addAllRows()
-        }
-        return cursorBuilder.cursor
     }
 
     /**
