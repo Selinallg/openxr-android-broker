@@ -6,7 +6,6 @@
         Copyright 2020-2021, Collabora, Ltd.
         SPDX-License-Identifier: BSL-1.0
     -->
-
     <!-- For Android 11 compat: We need to be able to query package manager for this intent. -->
     <queries>
         <intent>
@@ -30,14 +29,26 @@
         android:permissionGroup="org.khronos.openxr.permission-group.OPENXR"
         android:protectionLevel="normal" />
     <application
+        android:name=".InstallableRuntimeBrokerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="AllowBackup">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.OpenXR.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <provider
-            android:name="org.khronos.openxr.runtime_broker.InstallableRuntimeBroker"
+            android:name=".InstallableRuntimeBroker"
             android:authorities="org.khronos.openxr.runtime_broker"
             android:enabled="true"
             android:exported="true"

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/runtime_list_fragment">
+    <!--
+        Copyright 2021, Qualcomm Innovation Center, Inc.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+
+    <fragment
+        android:id="@+id/runtime_list_fragment"
+        android:name="org.khronos.openxr.runtime_broker.RuntimeChooserFragment"
+        android:label="@string/runtime_list_fragment_label"
+        tools:layout="@layout/fragment_runtime_chooser"/>
+
+</navigation>
