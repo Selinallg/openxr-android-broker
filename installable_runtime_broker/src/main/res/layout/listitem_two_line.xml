@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--
+        Copyright 2021, Qualcomm Innovation Center, Inc.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+    <data>
+        <variable name="runtime" type="org.khronos.openxr.runtime_broker.data.RuntimeInformation"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="72dp">
+
+        <!-- Follow the spec from https://material.io/components/lists#specs. -->
+        <ImageView
+            android:id="@+id/list_item_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:scaleType="fitXY"
+            android:src="@{runtime.icon}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher_round"/>
+
+        <TextView
+            android:id="@+id/list_item_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:text="@{runtime.applicationName}"
+            app:layout_constraintTop_toTopOf="@id/list_item_icon"
+            app:layout_constraintStart_toEndOf="@id/list_item_icon"
+            app:layout_constraintEnd_toStartOf="@id/list_item_checkbox"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            tools:text="Sample Runtime" />
+
+        <TextView
+            android:id="@+id/list_item_secondary_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:ellipsize="marquee"
+            android:text="@{@string/runtime_version_format(runtime.majorVersion)}"
+            app:layout_constraintTop_toBottomOf="@id/list_item_text"
+            app:layout_constraintStart_toStartOf="@id/list_item_text"
+            app:layout_constraintEnd_toStartOf="@id/list_item_checkbox"
+            style="@style/TextAppearance.MaterialComponents.Caption"
+            tools:text="Major version: 1" />
+
+        <CheckBox
+            android:id="@+id/list_item_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:checked="@{runtime.selected}"
+            app:layout_constraintTop_toTopOf="@id/list_item_icon"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

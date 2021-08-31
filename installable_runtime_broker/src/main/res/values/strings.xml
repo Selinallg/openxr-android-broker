@@ -4,4 +4,6 @@
         SPDX-License-Identifier: BSL-1.0
     -->
     <string name="app_name">OpenXR Runtime Broker</string>
+    <string name="runtime_list_fragment_label">Installed Runtimes</string>
+    <string name="runtime_version_format">Major version: %1$d</string>
 </resources>

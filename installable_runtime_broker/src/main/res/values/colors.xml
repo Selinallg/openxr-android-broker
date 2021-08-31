@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Copyright 2021, Qualcomm Innovation Center, Inc.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+    <!-- OpenXR brand color -->
+    <color name="openxr_brand">#782B90</color>
+
+    <!-- see also https://coolors.co/1effbc-ff8811-782b90-5c216e-f4d06f -->
+    <!-- Darker shade of the brand color - coolors.co calls it "Midnight" -->
+    <color name="midnight">#5C216E</color>
+
+    <!-- Contrasting teal, thanks to colormind.io -->
+    <color name="contrasting_teal">#2B8C8B</color>
+
+    <!-- Sea Green Crayola -->
+    <color name="sea_green_crayola">#1EFFBC</color>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <!--
+        Copyright 2021, Qualcomm Innovation Center, Inc.
+        SPDX-License-Identifier: BSL-1.0
+    -->
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

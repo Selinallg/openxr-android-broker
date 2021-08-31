@@ -8,6 +8,6 @@ import org.khronos.openxr.broker_lib.RuntimeBrokerUriParser
 import org.khronos.openxr.runtime_broker.utils.RuntimeChooser
 
 class InstallableRuntimeBroker : AbstractRuntimeBroker() {
-    override val runtimeChooser: RuntimeChooser = NoChoiceRuntimeChooser()
+    override val runtimeChooser: RuntimeChooser = InstallableRuntimeChooser()
     override val parser: BrokerUriParser = RuntimeBrokerUriParser()
 }

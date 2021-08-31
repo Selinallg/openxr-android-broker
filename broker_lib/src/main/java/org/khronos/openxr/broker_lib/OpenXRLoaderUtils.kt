@@ -38,6 +38,17 @@ object OpenXRLoaderUtils {
      * @return A list of the RuntimeData corresponding to the runtimes, or null if there are no
      * OpenXR runtimes.
      */
+    fun findOpenXRRuntimes(context: Context): MutableList<RuntimeData>? {
+        return findOpenXRRuntimes(context, "")
+    }
+
+    /**
+     * Find all installed OpenXR runtimes, even inactive ones.
+     *
+     * @param context the Context to use to perform the lookup.
+     * @return A list of the RuntimeData corresponding to the runtimes, or null if there are no
+     * OpenXR runtimes.
+     */
     fun findOpenXRRuntimes(context: Context, @NonNull abi: String): MutableList<RuntimeData>? {
         val packageManager = context.packageManager
         val intent = Intent(serviceName)
