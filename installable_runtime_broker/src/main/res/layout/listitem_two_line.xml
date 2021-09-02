@@ -7,6 +7,7 @@
         SPDX-License-Identifier: BSL-1.0
     -->
     <data>
+        <import type="org.khronos.openxr.runtime_broker.data.RuntimeInformationKt"/>
         <variable name="runtime" type="org.khronos.openxr.runtime_broker.data.RuntimeInformation"/>
     </data>
 
@@ -49,7 +50,7 @@
             android:layout_marginEnd="16dp"
             android:maxLines="1"
             android:ellipsize="marquee"
-            android:text="@{@string/runtime_version_format(runtime.majorVersion)}"
+            android:text="@{@string/runtime_last_update_format(RuntimeInformationKt.lastUpdatedDate(runtime))}"
             app:layout_constraintTop_toBottomOf="@id/list_item_text"
             app:layout_constraintStart_toStartOf="@id/list_item_text"
             app:layout_constraintEnd_toStartOf="@id/list_item_checkbox"

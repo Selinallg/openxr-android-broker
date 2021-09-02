@@ -3,6 +3,8 @@
 package org.khronos.openxr.runtime_broker.data
 
 import android.graphics.drawable.Drawable
+import java.text.DateFormat
+import java.util.Date
 
 data class RuntimeInformation(
     val applicationName: String,
@@ -13,3 +15,5 @@ data class RuntimeInformation(
     val lastUpdateTime: Long,
     var selected: Boolean
 )
+
+fun RuntimeInformation.lastUpdatedDate(): String = DateFormat.getDateInstance().format(Date(lastUpdateTime));
