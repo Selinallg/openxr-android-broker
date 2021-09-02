@@ -8,11 +8,16 @@
         Copyright 2021, Qualcomm Innovation Center, Inc.
         SPDX-License-Identifier: BSL-1.0
     -->
+    <include app:graph="@navigation/aboutlibs_navigation" />
 
     <fragment
         android:id="@+id/runtime_list_fragment"
         android:name="org.khronos.openxr.runtime_broker.RuntimeChooserFragment"
         android:label="@string/runtime_list_fragment_label"
-        tools:layout="@layout/fragment_runtime_chooser"/>
+        tools:layout="@layout/fragment_runtime_chooser">
+        <action
+            android:id="@+id/action_runtime_list_to_about_libs"
+            app:destination="@id/about_libraries" />
+    </fragment>
 
 </navigation>
