@@ -6,6 +6,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.mikepenz.aboutlibraries.plugin'
 }
 
 android {
@@ -59,6 +60,10 @@ dependencies {
     implementation "androidx.security:security-crypto:$androidxSecurityVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "com.mikepenz:aboutlibraries-core:${latestAboutLibsRelease}"
+    implementation "com.mikepenz:aboutlibraries:${latestAboutLibsRelease}"
+    implementation "androidx.cardview:cardview:$androidxCardViewVersion"
+    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
     implementation project(':broker_lib')
     implementation project(':utils')
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")

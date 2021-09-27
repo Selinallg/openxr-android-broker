@@ -4,10 +4,15 @@ package org.khronos.openxr.runtime_broker
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +36,7 @@ class RuntimeChooserFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         _binding = FragmentRuntimeChooserBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,5 +76,31 @@ class RuntimeChooserFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        setTitle(getString(R.string.runtime_list_fragment_label))
+    }
+
+    private fun setTitle(title: String) {
+        val activity = requireActivity() as AppCompatActivity
+        activity.supportActionBar?.title = title
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_runtime_chooser, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about -> {
+                findNavController().navigate(R.id.action_runtime_list_to_about_libs)
+                setTitle(getString(R.string.about))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
