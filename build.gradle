@@ -19,7 +19,7 @@ buildscript {
 
         materialVersion = '1.4.0'
         hiltVersion = '2.38.1'
-        latestAboutLibsRelease = "8.9.1"
+        latestAboutLibsRelease = "8.9.4"
     }
     repositories {
         google()
