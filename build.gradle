@@ -5,7 +5,7 @@
 buildscript {
     ext {
         kotlinVersion = '1.5.30'
-        gradlePluginVersion = '7.0.1'
+        gradlePluginVersion = '7.1.2'
         desugarVersion = "1.1.1"
 
         androidxAnnotationVersion = "1.1.0"
@@ -19,7 +19,7 @@ buildscript {
 
         materialVersion = '1.4.0'
         hiltVersion = '2.38.1'
-        latestAboutLibsRelease = "8.9.1"
+        latestAboutLibsRelease = "8.9.4"
     }
     repositories {
         google()
